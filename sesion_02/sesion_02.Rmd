@@ -1,0 +1,517 @@
+---
+title: "Sesión 2"
+subtitle: "Estructuras de control"
+author: "Joselyn Chávez"
+date: "12/02/2022"
+output:
+  xaringan::moon_reader:
+    css: "perl.css"
+    self_contained: true
+    nature:
+      ratio: '16:9'
+---
+class: chapter-slide
+
+# Argumentos de entrada 
+
+---
+# Argumentos de entrada en Perl
+
+- ARGV
+- STDIN
+
+---
+
+## ARGV
+
+- Argumentos que sólo se proporcionan al ejecutar el programa.
+
+- Separados por un espacio en la línea de comando.
+
+- Numerado por [ ] comenzando en 0.
+
+```{perl,eval=FALSE}
+my $nombre = $ARGV[0];
+my $apellido = $ARGV[1];
+
+print "Tu nombre completo es: $nombre\t$apellido\n";
+```
+
+perl programa_01.pl Joselyn Chavez
+
+---
+
+## ARGV
+
+- Las variables guardan automáticamente el contenido.
+
+- Pueden ser usadas con su nombre default durante el programa.
+
+```{perl,eval=FALSE}
+print "Tu nombre completo es: $ARGV[0]\t$ARGV[1]\n";
+```
+
+perl programa_02.pl Joselyn Chavez
+
+---
+## ARGV
+
+- Si necesitas introducir varias palabras en el argumento, se usan comillas dobles o sencillas.
+
+```{perl,eval=FALSE}
+print "Tu nombre completo es: $ARGV[0]\n";
+```
+
+perl programa_03.pl "Joselyn Chavez"
+
+---
+## STDIN
+
+- Entradas que se piden al usuario durante la ejecución del programa
+
+```{perl,eval=FALSE}
+
+print "Escribe tu nombre: ";
+my $nombre = <STDIN>;
+
+print "Escribe tu apellido: ";
+my $apellido = <STDIN>;
+
+print "Tu nombre completo es: $nombre\t$apellido\n";
+```
+
+perl programa_04.pl ¿Cómo se ve el output?
+
+---
+## Operador chomp
+
+- Remueve el salto de línea (oculto) al final de la variable.
+
+```{perl,eval=FALSE}
+print "Escribe tu nombre: ";
+my $nombre = <STDIN>;
+chomp $nombre;
+
+print "Escribe tu apellido: ";
+my $apellido = <STDIN>;
+chomp $apellido;
+
+print "Tu nombre completo es: $nombre\t$apellido\n";
+```
+
+perl programa_05.pl
+
+---
+## Operador chomp
+
+- Aplicado directamente a la entrada.
+
+```{perl,eval=FALSE}
+print "Escribe tu nombre: ";
+chomp(my $nombre = <STDIN>);
+
+print "Escribe tu apellido: ";
+chomp(my $apellido = <STDIN>);
+
+print "Tu nombre completo es: $nombre\t$apellido\n";
+```
+
+perl programa_06.pl
+
+---
+class: chapter-slide
+
+# Estructuras de control
+
+---
+# Estructuras de control en Perl
+
+- if
+- else
+- while
+- until
+- unless
+
+---
+# if
+
+```{perl,eval=FALSE}
+if (condición) {  
+    ejecuta acción 1;  
+}
+```
+
+--
+
+# else
+
+```{perl,eval=FALSE}
+if (condición) {
+	ejecuta acción 1;
+}	else {
+	ejecuta acción 2;
+	}
+```
+
+---
+
+```{perl,eval=FALSE}
+my $num1 = $ARGV[0];
+my $num2 = $ARGV[1];
+
+if ($num1 > $num2) {
+	print "$num1 es mayor a $num2\n";
+} else {
+	print "$num1 es menor que $num2\n";
+}
+```
+
+perl programa_07.pl 20 15
+
+--
+
+¿Qué ocurre con perl programa_07.pl 15 15 ?
+
+---
+
+¿Qué sucede si tenemos varias condiciones a evaluar?
+
+```{perl,eval=FALSE}
+if (condición1, condición2, …) {
+	ejecuta acción 1;
+} else {
+  ejecuta acción 2;
+}
+```
+
+---
+# elsif
+
+```{perl,eval=FALSE}
+if (condición1) {
+	ejecuta acción 1;
+} elsif (condición 2) {
+  ejecuta acción 2;
+  } else {
+	ejecuta acción 3;
+	}
+```
+
+---
+
+```{perl,eval=FALSE}
+my $num1 = $ARGV[0];
+my $num2 = $ARGV[1];
+
+if ($num1 > $num2) {
+	print "$num1 es mayor a $num2\n";
+} elsif ($num1 < $num2) {
+	print "$num1 es menor que $num2\n";
+} else {
+	print "$num1 es igual a $num2\n";
+}
+```
+
+perl programa_08.pl 15 15 
+
+---
+
+## Operadores lógicos and (&&), or (||)
+
+```{perl,eval=FALSE}
+my $var1 = $ARGV[0];
+my $var2 = $ARGV[1];
+my $var3 = $ARGV[2];
+
+if ($var1 eq $var2 && $var2 eq $var3) {
+	print "Todas las variables son iguales\n";
+} elsif ($var1 eq $var2 || $var1 eq $var3 || $var2 eq $var3) {
+	print  "Algunas de las variables son iguales\n";
+} else {
+	print "Todas las variables son diferentes\n";
+}
+```
+
+perl programa_09.pl uno dos tres 
+
+---
+
+## Ejercicio
+
+programa_10.pl
+
+Escribe un programa que pida al usuario tres palabras y le indique cuál contiene más caracteres
+
+---
+# for
+
+```{perl,eval=FALSE}
+for (inicio..término) {
+	ejecuta acción ;
+}
+```
+
+```{perl,eval=FALSE}
+for (1..5) {
+	print "hola\n";
+}
+```
+
+perl programa_11.pl
+ 
+---
+
+## Ejercicio
+
+Escribe un programa que imprima la siguiente secuencia:
+
+```{perl,eval=FALSE}
+#
+##
+###
+####
+#####
+```
+
+programa_12.pl
+
+---
+```{perl,eval=FALSE}
+for (inicio; evaluacion; incremento){
+	ejecuta acción ;
+}
+```
+
+```{perl,eval=FALSE}
+my $i;
+
+for ($i = 1; $i <=5; $i++) {
+	print "hola\n";
+}
+```
+
+perl programa_13.pl
+
+---
+## Ejercicio
+
+Modifica tu programa anterior para utilizar la estructura for con evaluación
+
+---
+# while
+
+```{perl,eval=FALSE}
+while (condición) {
+	ejecuta acción;
+}
+```
+
+Ejecuta siempre que la condición sea verdadera
+
+---
+
+```{perl,eval=FALSE}
+for (inicio; evaluacion; incremento){
+	ejecuta acción ;
+}
+```
+
+Sería equivalente a:
+
+```{perl,eval=FALSE}
+Inicio;
+while(evaluacion){
+	ejecuta;
+	incremento;
+}
+```
+
+---
+```{perl,eval=FALSE}
+my $i =1;
+
+while ($i <= 5) {	
+	print "hola\n";
+	$i++;
+}
+```
+
+perl programa_14.pl 
+
+---
+## Ejercicio
+
+Escribe un programa que genere la siguiente secuencia:
+
+```{perl,eval=FALSE}
+#####
+####
+###
+##
+#
+```
+
+---
+# unless
+
+```{perl,eval=FALSE}
+unless (condición) {
+	ejecuta acción;
+}
+```
+
+Ejecuta solamente cuando la condición es falsa
+
+--
+
+Sería equivalente a:
+```{perl,eval=FALSE}
+if (condición) {
+	no hagas nada;
+} else {
+	ejecuta acción;
+  }
+```
+
+---
+
+Programa que suma 1 a cualquier número, excepto al 9
+
+```{perl,eval=FALSE}
+my $num = $ARGV[0];
+
+unless($num == 9) {
+	$num++;
+	print "$num\n";
+}
+```
+
+perl programa_15.pl 5
+perl programa_15.pl 9
+
+---
+## ¿Cuándo usamos generalmente unless?
+
+- Selección de líneas
+- Detección de errores en los archivos de entrada
+
+---
+## ¿Qué va a hacer cuando la condición sea verdadera?
+
+```{perl,eval=FALSE}
+unless (condición) {
+	ejecuta acción1;
+} else {
+	ejecuta acción2;
+  }
+```
+
+---
+```{perl,eval=FALSE}
+my $num = $ARGV[0];
+
+unless($num == 9) {
+	$num++;
+	print "$num\n";
+} else {
+	print "El número introducido no es válido, seleccione un número del 1 al 8\n";
+}
+```
+
+perl programa_16.pl 9
+
+---
+## ¿Cuándo usamos generalmente unless + else?
+
+- Para dar un mensaje de ayuda/error
+- Para romper un loop
+
+---
+
+```{perl,eval=FALSE}
+my $saludo = $ARGV[0];
+my $rep = $ARGV[1];
+my $i = 1;
+
+while ($i <= $rep) {
+        unless ($i > 20) {
+                print "$saludo\n";
+                $i++;
+        } else {
+                print "se ha alcanzado el máximo de repeticiones\n";
+                exit;
+        }
+}
+```
+
+perl programa_17.pl hola 30
+
+---
+# until
+
+- El código se ejecuta siempre que la condición sea negativa, hasta que se cumple la condición que rompe el ciclo
+
+- Se puede ver como un while negativo
+
+```{perl,eval=FALSE}
+until (condicion) {
+	ejecuta acción1;
+}
+```
+
+---
+
+```{perl,eval=FALSE}
+my $num = $ARGV[0];
+
+until ($num <= 0) {
+	$num -= 2;
+	print "$num ";
+} 
+print "\n";
+```
+
+perl programa_18.pl 12
+
+---
+## Ejercicio
+
+- Pide al usuario que introduzca una frase
+- Usa substr y estructuras de control para extraer e imprimir en renglones separados cada letra de la oración que el usuario proporcionó, excepto si la letra es una "a". Hazle saber al usuario en qué lugar omitiste la letra "a"
+
+programa_19.pl
+
+---
+# Evaluando la presencia de caracteres en un escalar
+
+Usaremos el operador =~
+
+```{perl,eval=FALSE}
+if ($variable =~ /patron/)
+```
+
+---
+
+```{perl,eval=FALSE}
+my $palabra = $ARGV[0];
+my $patron = $ARGV[1];
+
+if ($palabra =~ /$patron/) {
+	print "La palabra $palabra contiene a $patron\n";
+} else {
+	print "La palabra $palabra no contiene a $patron\n";
+}
+```
+
+perl programa_20.pl parque ar
+
+perl programa_20.pl parque al
+
+---
+## Ejercicio
+
+- Pide al usuario que introduzca una frase
+- Cuenta el número de vocales en la frase e imprímelo
+- Hazle saber al usuario cuando ha escrito una frase vacía
+
+programa_21.pl
