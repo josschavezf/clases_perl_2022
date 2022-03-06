@@ -1,0 +1,81 @@
+---
+title: "Sesión 5"
+subtitle: "Lectura y escritura de archivos"
+author: "Joselyn Chávez"
+date: "05/03/2022"
+output:
+  xaringan::moon_reader:
+    css: "perl.css"
+    self_contained: true
+    nature:
+      ratio: '16:9'
+---
+
+# Lectura manual de un archivo
+
+```{Perl, eval=FALSE}
+my $linea;
+
+open my $ARCH, "pinguinos.txt";
+
+$linea = <$ARCH>;
+print $linea;
+
+$linea = <$ARCH>;
+print $linea;
+```
+
+perl programa_01.pl
+
+---
+
+# Lectura usando while
+
+```{Perl, eval=FALSE}
+while ($a = <$ARCH>) {
+	ejecuta acción con $a;
+}
+```
+
+```{Perl, eval=FALSE}
+while (<ARCH>) {
+	ejecuta acción con $_;
+}
+```
+
+---
+
+```{Perl, eval=FALSE}
+my $archivo = "pinguinos.txt";
+my $linea;
+
+open my $ARCH, $archivo;
+
+while ($linea = <$ARCH>) {
+	print $linea;
+}
+```
+
+perl programa_02.pl
+
+---
+
+```{Perl, eval=FALSE}
+my $archivo = "pinguinos.txt";
+
+open(A, $archivo);
+
+while (<A>) {
+	print $_;
+}
+```
+
+perl programa_03.pl
+
+---
+## Ejercicio
+
+- Lee el archivo pinguinos.txt e imprime solamente las lineas que correspondan a la isla Torgersen.
+
+- ¿Cuántas líneas cumplieron con esta condición?
+
