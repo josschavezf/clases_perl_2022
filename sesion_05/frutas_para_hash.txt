@@ -1,0 +1,4 @@
+manzanas 1 verde
+fresas 5 rojo
+moras 25 morado
+
