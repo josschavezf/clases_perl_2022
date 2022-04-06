@@ -1,4 +1,3 @@
 canasta1 manzanas moras mangos
 canasta2 peras fresas
 canasta3 mangos
-

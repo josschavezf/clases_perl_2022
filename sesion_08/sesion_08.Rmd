@@ -1,0 +1,278 @@
+---
+title: "Sesión 8"
+subtitle: "Expresiones Regulares"
+author: "Joselyn Chávez"
+date: "02/04/2022"
+output:
+  xaringan::moon_reader:
+    css: "perl.css"
+    self_contained: true
+    nature:
+      ratio: '16:9'
+---
+
+# ¿Qué son las expresiones regulares?
+<br><br>
+Una forma de describir a un grupo de cadenas de caracteres que comparte un patrón sin listar cada elemento del grupo.
+
+<br><br>
+Las expresiones regulares son usadas por programas de búsqueda de patrones como grep, sed o awk.
+---
+
+# ¿Cuándo usamos expresiones regulares?
+
+- Como **condicional**: al evaluar si una variable corresponde con un patrón
+
+Imprime todas las lineas que contengan el patrón oso
+```{Perl,eval=FALSE}
+open(A, "osos.txt");
+while(<A>) { 
+        chomp;
+        if ($_ =~ /oso/ ) { 
+                print "$_\n";
+        } }
+close(A);
+```
+programa_01.pl
+
+---
+
+## El uso de [ ]
+
+Identifica el patrón que contenga cualquiera de las opciones listadas dentro de [ ]
+
+Imprime las lineas que contengan oso u osa
+
+```{Perl,eval=FALSE}
+open(A, "osos.txt");
+while(<A>) {
+        chomp;
+        if ($_ =~ /os[oa]/ ) {
+                print "$_\n";
+        } }
+close(A);
+```
+programa_02.pl
+
+---
+
+## Ejercicio
+
+Usa la expresión regular con [ ] para imprimir las lineas que contengan el patrón oso, osa u ositos
+
+programa_03.pl
+
+---
+
+## El uso de *
+
+Se usa para buscar cualquier patrón que se encuentre después del precedente al *
+
+Imprime las lineas que contengan el patrón oso, osa u ositos
+```{Perl,eval=FALSE}
+open(A, "osos.txt");
+while(<A>) {
+	chomp;
+	if ($_ =~ /os*/ ) {
+		print "$_\n";
+	} }
+close(A);
+```
+programa_04.pl
+
+---
+
+**¿Qué pasó con el programa?**
+
+El patrón os* identifica también a bosque
+
+---
+
+## El uso de ^
+
+Indica que el elemento donde buscará el patrón comienza con el patrón mencionado.
+
+```{Perl,eval=FALSE}
+open(A, "osos.txt");
+while(<A>) {
+        chomp;
+        if ($_ =~ /^os*/ ) {
+                print "$_\n";
+        }
+}
+```
+--
+¿Por qué no funciona? La línea no comienza con el patrón
+programa_05.pl
+---
+
+Es necesario evaluar cada palabra de la frase
+
+```{Perl,eval=FALSE}
+while(<A>) {
+        chomp;
+        my @arreglo = split(/ /, $_);
+        foreach my $elemento (@arreglo) { 
+                if ($elemento =~ /^os*/ ) {
+                        print "$_\n";
+                        last;
+                }
+        }
+}
+```
+programa_06.pl
+
+---
+## Ejercicio
+
+Usa la expresión regular con * que imprima las lineas que contengan conejo, conejos o conejitos
+
+programa_07.pl
+
+---
+
+## El uso de $
+
+Identifica un patrón que antecede el término de la frase o elemento
+
+Imprime las lineas que contienen bosques, ríos o tejados
+
+```{Perl,eval=FALSE}
+while(<A>) {
+        chomp;
+        if ($_ =~ /s$/ ) {
+                print "$_\n";
+        }
+}
+```
+programa_08.pl
+
+---
+
+## Ejercicio
+
+Usa una expresión regular con $ para imprimir las líneas que contienen Unos o Unas
+
+programa_09.pl
+
+---
+
+## Combinando ^ y [ ]
+
+Imprime las líneas que contienen Unos o Unas
+
+```{Perl,eval=FALSE}
+while(<A>) {
+        chomp;
+        if ($_ =~ /^Un[oa]s/ ) {
+                        print "$_\n";
+        }
+}
+```
+programa_10.pl
+
+---
+## Ejercicio
+
+Usa la combinación de ^, [ ] y $ para imprimir las lineas que contienen osos u osas, sin incluir a perezosos ni osososos.
+
+programa_11.pl
+
+---
+## El uso de +
+
+Permite  buscar una o más repeticiones del patrón
+
+Imprime las claves de letras, seguidas o no por números
+
+```{Perl,eval=FALSE}
+open(A, "claves.txt");
+while(<A>) {
+	chomp;
+	if ($_ =~ /[a-z]+/ ) {
+		print "$_\n";
+	}
+}
+close(A);
+```
+programa_12.pl
+
+---
+
+Imprime las claves que contienen letras mayúsculas, seguidas de números
+
+```{Perl,eval=FALSE}
+while(<A>) {
+	chomp;
+	if ($_ =~ /[A-Z][0-9]+/ ) {
+		print "$_\n";
+	}
+}
+```
+programa_13.pl
+
+---
+## Ejercicio  
+
+Imprime las claves que comienzan con números, seguidas de letras minúsculas, seguidas de letras mayúsculas
+
+programa_14.pl
+
+---
+
+## Uso de contadores { } en expresiones regulares
+
+Imprime la clave que comienza con dos letras minúsculas seguidas de números
+
+```{Perl,eval=FALSE}
+while(<A>) {
+	chomp;
+	if ($_ =~ /^[a-z]{2}[0-9]+/ ) {
+		print "$_\n";
+	}
+}
+```
+programa_15.pl
+
+---
+## Ejercicio
+
+Imprime las claves que contienen números, seguidos de solamente dos letras minúsculas.
+
+programa_16.pl
+
+---
+
+Imprime las claves que contienen números, seguidos de mínimo 2 y máximo 4 caracteres 
+
+```{Perl,eval=FALSE}
+while(<A>) {
+	chomp;
+	if ($_ =~ /\d+[a-z]{2,4}$/ ) {
+		print "$_\n";
+	}
+}
+```
+programa_17.pl
+
+---
+
+Imprime las claves que contienen números, seguidos de mínimo 2 caracteres 
+
+```{Perl,eval=FALSE}
+while(<A>) {
+	chomp;
+	if ($_ =~ /\d+[a-z]{2,}$/ ) {
+		print "$_\n";
+	}
+}
+```
+programa_18.pl
+
+---
+## Ejercicio
+
+Imprime las claves con 1 a 3 letras minúsculas, seguidas de al menos 2 dígitos
+
+programa_19.pl
+

@@ -1,20 +1,31 @@
-#!/usr/bin/perl
+	#!/usr/bin/perl
 
-use strict;
-use warnings;
+#use strict;
+#use warnings;
 
-my %hash = (
-	canasta1 => ["manzanas", "moras", "mangos"],
-	canasta2 => ["peras","fresas"],
-	canasta3 => ["manngos"],
-);
+my %frutas = {};
 
-#foreach my $llave (keys(%hash)) {
-	#for my $i (0 .. $#{$hash{$llave}}) {
-#		print "$hash{$llave}[0] ";
-	#}
-	print "\n";
-#}
+open(A, "frutas_para_hash.txt");
+
+while(<A>) {
+	chomp;
+	my @arreglo = split(/ /, $_);
+	$frutas{$arreglo[0]}{cantidad} = $arreglo[1];
+	$frutas{$arreglo[0]}{color} = $arreglo[2];
+}
+close(A);
 
 
-print "$hash{canasta1}[1]\n";
+$frutas{fresas}{cantidad} = 25
+$frutas{fresas}{color} = "rojo";
+
+print "$frutas{moras}{color}\n";
+
+
+$pinguinos{pinguino_1}{especie} = Adelia;
+$pinguinos{pinguino_1}{isla} = Dream;
+$pinguinos{pinguino_1}{alto_pico} = 30;
+
+
+
+

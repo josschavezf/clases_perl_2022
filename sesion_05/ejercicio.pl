@@ -1,40 +1,32 @@
 #!/usr/bin/perl
 
-# use warnings;
-# use strict;
-
-my $pinguino =$ARGV[0];
+use warnings;
+use strict;
 my $archivo = "pinguinos.txt";
-my %especies;
-my %islas;
-my $i = 1;
+my %pinguinos;
+my $i = 0;
 
-open(A, $archivo);
+open (A, $archivo);
+my $forget = <A>;
 
-my  $columnas = <A>;
-
-while(<A>) {
+while (<A>) {
     chomp;
-    my @arreglo = split(/\t/, $_);
-    $especies{$i} = $arreglo[0];
-    $islas{$i} = $arreglo[1];
     $i++;
+    my @arreglo = split(/\t/, $_);
+    unshift(@arreglo, $i);
+    $pinguinos{$arreglo[0]}{especie} = $arreglo[1];
+    $pinguinos{$arreglo[0]}{isla} = $arreglo[2];
+    $pinguinos{$arreglo[0]}{largo_pico} = $arreglo[3];
+    $pinguinos{$arreglo[0]}{alto_pico} = $arreglo[4];
 }
-
 close(A);
 
+print "Que numero de pinguino vamos a verificar? \n";
+chomp (my $numero = <STDIN>);
 
-if (exists($islas{$pinguino})) {
-    print "La especie del pinguino $pinguino es: $especies{$pinguino}\n";
-    print "El pinguino $pinguino, vive en la isla $islas{$pinguino}\n";
-} else {
-    print "El pinguino seleccionado \"$pinguino\" no existe, try again... \n";
-}
+print "especie: $pinguinos{$numero}{especie}\n";
+print "isla: $pinguinos{$numero}{isla}\n";
+print "largo_pico: $pinguinos{$numero}{largo_pico}\n";
+print "alto_pico: $pinguinos{$numero}{alto_pico}\n";
 
-
-if ($islas{$pinguino} eq "Dream") {
-	print "La especie del pinguino $pinguino es $especies{$pinguino} y su isla es $islas{$pinguino}\n";
-} else {
-	print "La isla del pinguino $pinguino es $islas{$pinguino}\n";
-}
 exit
