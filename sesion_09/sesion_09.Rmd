@@ -1,0 +1,268 @@
+---
+title: "Sesión 9"
+subtitle: "Subrutinas"
+author: "Joselyn Chávez"
+date: "09/04/2022"
+output:
+  xaringan::moon_reader:
+    css: "perl.css"
+    self_contained: true
+    nature:
+      ratio: '16:9'
+---
+
+# ¿Qué son las subrutinas?
+
+- Seccionees de código diseñadas para ejecutar procesos de mmanera repetitiva. - Usualmente toman una entrada y generan una salida
+- Son equivalentes a las funciones en otros lenguajes
+
+---
+
+
+# Sintaxis de las subrutinas
+
+```{Perl,eval=FALSE}
+sub nombre {
+    # código a ejecutar
+}
+
+sub mensaje {
+    print "Esta es una subrutina\n";
+}
+
+mensaje();
+```
+programa_01.pl
+
+---
+
+# Usando argumentos de entrada
+
+- Se proporcionan dentro de ( )
+- Se almacenan como un arreglo default (@_)
+- Se accede a ellos con @_ 
+- Se puede acceder a un elemento específico con $_
+
+```{Perl,eval=FALSE}
+sub max {
+    my $max = pop(@_);
+    foreach my $elemento (@_) {
+        if ($elemento > $max) {
+            $max = $elemento;
+        }
+    }
+    return $max;
+}
+```
+---
+```{Perl,eval=FALSE}
+my $valor_maximo = max(1,2,4,5,3);
+
+print("$valor_maximo\n");
+```
+programa_02.pl
+
+---
+## Ejercicio
+
+- Modifica el programa anterior para que el usuario pueda proporcionar los valores a evaluar dentro de max()
+
+Pista: los números 1,2,4,5,3 dentro de max(1,2,4,5,3) son equivalentes a @arreglo = (1,2,4,5,3) 
+
+programa_03.pl
+---
+
+Usando $_
+
+```{Perl,eval=FALSE}
+sub suma { 
+        my $res = $_[0] + $_[1];
+        return $res;
+}
+
+my $resultado = suma(2,8);
+
+print "$resultado\n";
+```
+programa_04.pl
+---
+
+Ejemplo con STDIN y $_
+
+```{Perl,eval=FALSE}
+print "Escribe todos elementos separados por coma: ";
+chomp(my $entrada = <STDIN>);
+my @arreglo = split(/,/, $entrada);
+
+print "Escribe la posición del elemento a extraer: ";
+chomp(my $nelemento = <STDIN>);
+
+sub extrae {
+        my $res = $_[$nelemento];
+        return "$res\n";
+}
+```
+
+---
+
+```{Perl,eval=FALSE}
+my $resultado = extrae(@arreglo);
+
+print("El resultado es: $resultado\n");
+```
+programa_05.pl
+
+
+---
+
+# Llamando a la subrutina
+
+- Opción 1
+
+```{Perl,eval=FALSE}
+nombre_subrutina(argumentos)
+
+max(1,2,4,5,3)
+```
+
+---
+- Opción 2
+
+```{Perl,eval=FALSE}
+nombre_subrutina argumentos
+
+max 1,2,4,5,3;
+
+```
+
+Usando un arreglo:
+
+```{Perl,eval=FALSE}
+max(@arreglo); # opción 1
+max @arreglo; # opción 1
+```
+---
+
+# Usando subrutinas para explorar archivos
+
+```{Perl,eval=FALSE}
+sub imprime {
+        foreach my $archivo (@_) {
+                open(A, $archivo);
+                print "Archivo $archivo:\n";
+                for (1..5) { 
+                        my $linea = <A>;
+                        print "$linea";
+                }
+                close(A);
+        }
+
+}
+```
+
+---
+```{Perl,eval=FALSE}
+imprime("anio.txt","modelo.txt","motores.txt","asientos.txt");
+```
+
+--
+O puedes usar
+
+```{Perl,eval=FALSE}
+imprime "anio.txt","modelo.txt","motores.txt","asientos.txt";
+```
+programa_06.pl
+
+---
+
+# Exportando e importando subrutinas
+
+- Puedes escribir las subrutinas en un archivo .pl agregando 1; al final
+
+- Después importarlas en tu script principal usando requiere
+
+---
+
+```{Perl,eval=FALSE}
+sub imprime {
+        foreach my $archivo (@_) {
+                open(A, $archivo);
+                print "Archivo $archivo:\n";
+                for (1..5) { 
+                        my $linea = <A>;
+                        print "$linea";
+                }
+                close(A);
+        }
+
+}
+
+1;
+```
+programa_07_exporta.pl
+
+---
+
+```{Perl,eval=FALSE}
+require "./programa_07_exporta.pl";
+
+imprime("anio.txt","modelo.txt","motores.txt","asientos.txt");
+```
+programa_07_importa.pl
+
+---
+
+## Ejercicio
+
+Escribe un programa que busque el código de cola de un avión e imprima el año correspondiente al código buscado.
+
+Este programa no requiere subrutinas
+
+Pista: puedes usar la búsqueda de patrones con =~ 
+
+programa_08.pl
+
+---
+## Ejercicio
+
+Qué le modificarías al programa si ahora quieres saber el modelo de avión?
+
+--
+
+Convierte tu programa en una subrutina para imprimir el año correspondiente al código de cola solicitado.
+
+programa_09.pl
+
+--
+
+Modifica el llamado a la subrutina para obtener toda la información (año, modelo, motores y asientos) del código de cola correspondiente
+
+---
+
+## Combinando subrutinas con hashes
+
+
+Genera un hash que relacione el código de cola con el año
+
+Extrae el año correspondiente a un código de cola
+
+Este programa no requiere subrutinas
+
+programa_10.pl
+
+---
+
+Convierte este código en una subrutina
+
+Pistas: 
+- La generación del hash y la búsqueda del código son dos pasos separados
+- La búsqueda del código requerido no forma parte de la subrutina
+
+programa_11.pl
+
+--
+
+Extrae toda la información (año, modelo, motores y asientos) del código de cola correspondiente
+
+programa_12.pl
+
